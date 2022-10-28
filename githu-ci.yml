@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request: [ master ]
+
+
+stages:
+  -production
+
+jobs:
+  build:
+
+    runs-on: amazn
+
+  production:
+    stage: production
+    node-version: [16.x]
+
+    script:
+      - install yum update
+
+    steps:
+      - run: npm ci
+      - run: npm run build
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /var/www/my-app/
+          remote_host: <host>.compute.amazonaws.com
+          remote_user: ec2-user
+          remote_key: "${{ secrets.UCHE_KEY }}"
+
+  only:
+    refs:
+      - master
