@@ -3,7 +3,7 @@ const app = express();
 const router = require('./routes')
 app.use(express.urlencoded({ extended: false }));
 
-app.get('/uchenna-obidike-hng-project/api/v1/', (req, res) => {
+app.get('/api/v1/', (req, res) => {
     res.send(`Welcome to Uchenna Obidike HNG Project v.1.0 ${new Date()}`)
 })
 
