@@ -1,35 +1,35 @@
-name: CI
+name: Push to Ec2
 
+# Trigger deployment only on push to master
 on:
   push:
-    branches: [ master ]
-  pull_request: null 
+    branches: 
+      - master
 
 
 jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
+      - name: Checkout files
       - uses: actions/checkout@v3
-      - name: Use Node.js
-        uses: actions/setup-node@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v1
         with:
           node-version: '16.x'
-      - name: Install dependencies
-        run: npm ci
-      - run: npm run build --if-present
-
-      - name: rsync deployments
-        uses: burnett01/rsync-deployments@5.1
-        with:
-          switches: -avzr --delete
-          path: ./*
-          remote_path: /var/www/my-app/
-          remote_host: <host>.compute.amazonaws.com
-          remote_user: ec2-user
-          remote_key: "${{ secrets.UCHE_KEY }}"
+      - name: Install npm dependencies
+        run: npm install
+      - name: Run build task
+        run: npm run build --if-present
+      - name: Deploy to Server 1
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${ { secrets.UCHE_KEY }}
+          REMOTE_HOST: ${ { secrets.HOST_DNS }}
+          REMOTE_USER: ${ { secrets.USERNAME }}
+          TARGET: ${ { secrets.TARGET_DIR }}
