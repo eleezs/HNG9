@@ -23,3 +23,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - run: npm run build --if-present
+
+      - name: rsync deployments
+        uses: burnett01/rsync-deployments@5.1
+        with:
+          switches: -avzr --delete
+          path: ./*
+          remote_path: /var/www/my-app/
+          remote_host: <host>.compute.amazonaws.com
+          remote_user: ec2-user
+          remote_key: "${{ secrets.UCHE_KEY }}"
