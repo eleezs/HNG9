@@ -8,16 +8,16 @@ on:
 
 
 jobs:
-  deploy:
-    name: Deploy to EC2
-    runs-on: ubuntu-latest
+  #deploy:
+   # name: Deploy to EC2
+   # runs-on: ubuntu-latest
 
   build:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout files
-      - uses: actions/checkout@v3
+        uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v1
         with:
