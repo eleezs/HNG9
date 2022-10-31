@@ -36,6 +36,6 @@ jobs:
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: $secrets.UCHE_KEY
-          REMOTE_HOST: $secrets.HOST_DNS
+          REMOTE_HOST: ${{secrets.HOST_DNS}}
           REMOTE_USER: $secrets.USERNAME
           # TARGET: ${{ secrets.TARGET_DIR }}
