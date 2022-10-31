@@ -21,6 +21,7 @@ jobs:
 
     steps:
       - name: Checkout files
+        run: echo $UCHE_KEY
         uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v1
@@ -31,10 +32,9 @@ jobs:
       - name: Run build 
         run: npm run build --if-present
       - name: Deploy to Server 1
-        # run: echo $UCHE_KEY
         uses: easingthemes/ssh-deploy@main
         env:
           SSH_PRIVATE_KEY: ${{ secrets.UCHE_KEY }}
           REMOTE_HOST: ${{ secrets.HOST_DNS }}
           REMOTE_USER: ${{ secrets.USERNAME }}
-          # TARGET: ${{ secrets.TARGET_DIR }}
+          TARGET: ${{ secrets.TARGET_DIR }}
