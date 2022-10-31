@@ -21,7 +21,7 @@ jobs:
 
     steps:
       - name: Checkout files
-        run: echo $UCHE_KEY
+        run: echo ${{UCHE_KEY}}
         uses: actions/checkout@v3
       - name: Install Node.js
         uses: actions/setup-node@v1
