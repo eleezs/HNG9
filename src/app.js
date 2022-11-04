@@ -1,10 +1,11 @@
 const express = require('express');
 const app = express();
-const cors = require('cors')
+const cors = require('cors');
 const router = require('./routes')
 
 app.use(cors())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.status(200).send(`Welcome to Uchenna Obidike HNG Project v.1.0 ${new Date()}`)
